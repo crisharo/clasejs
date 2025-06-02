@@ -1,0 +1,105 @@
+.main-container {
+    position: relative;
+    width: 100%;
+    height: 260px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the container */
+    z-index: 1;
+}
+.message {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.message .sub {
+    background-color: white;
+    color: black;
+    padding: 8px 15px; 
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+.message h1 {
+    color: white;
+    text-align: center;
+    font-size: 38px;
+    line-height: 46px;
+    line-height: 1.5;
+    text-shadow: 5px 5px 5px BLACK;
+}
+.particle-wrapper {
+    position: absolute; /* Will be positioned by JS */
+    z-index: 2; /* Above background, below message */
+}
+.particle {
+    width: 10px;  /* Base size, can be varied by JS */
+    height: 10px; /* Base size, can be varied by JS */
+    background-color: #B8DFF0; /* Soft light blue (was white) */
+    border-radius: 50%;
+    position: absolute;
+    left: 0; /* Animation transforms relative to this */
+    top: 0;  /* Animation transforms relative to this */
+    opacity: 0; /* Initial state: fully transparent. Animation handles fade-in. */
+    animation-name: animateParticle;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    transform-origin: center center;
+    /* animation-duration and animation-delay set by JS */
+    /* CSS Custom Properties for animation set by JS */
+}
+
+@keyframes animateParticle {
+    0% {
+        /* JavaScript sets --tx-start and --ty-start to 0px. */
+        /* So, particle starts at its wrapper's origin, small and transparent. */
+        transform: translate(var(--tx-start, 0px), var(--ty-start, 0px)) scale(0.4);
+        opacity: 0;
+    }
+    15% {
+        /* Fades in and grows to full size by 15% of its duration. */
+        /* Position is 15% along its path from start to end. */
+        transform: translate(
+            calc(var(--tx-start, 0px) + var(--tx-end) * 0.15), /* If --tx-start is 0, this is var(--tx-end) * 0.15 */
+            calc(var(--ty-start, 0px) + var(--ty-end) * 0.15)  /* If --ty-start is 0, this is var(--ty-end) * 0.15 */
+        ) scale(1);
+        opacity: 1;
+    }
+    85% {
+        /* Stays fully visible and at full size until 85% of its duration. */
+        /* Position is 85% along its path. */
+        transform: translate(
+            calc(var(--tx-start, 0px) + var(--tx-end) * 0.85),
+            calc(var(--ty-start, 0px) + var(--ty-end) * 0.85)
+        ) scale(1);
+        opacity: 1;
+    }
+    100% {
+        /* Fades out and shrinks by the end of its duration, reaching its final position. */
+        transform: translate(var(--tx-end), var(--ty-end)) scale(0.4);
+        opacity: 0;
+    }
+}
+@media screen and (max-width: 800px){
+  .main-container {
+    height: 220px;
+  }
+  .message h1 {
+    font-size: 30px;
+    line-height: 38px;
+    line-height: 1.5;
+    }
+}
